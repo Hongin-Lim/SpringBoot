@@ -6,11 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.SimpleTimeZone;
 
 @Controller
 @Slf4j // 로깅을 위한 어노테이션
@@ -99,5 +102,23 @@ public class ArticleController {
         // 3 : 수정 결과 페이지로 리다이렉트 한다!
 
         return "redirect:/articles/" + articleEntity.getId();
+    }
+    @GetMapping("/articles/{id}/delete") // 원래는 deletemapping 이지만 html에서는 delete를 지원하지 않기때문에 get으로 요청!
+    private String delete(@PathVariable Long id, RedirectAttributes rttr){ // RedirectAttributes 메시지를 띄울때
+        log.info("삭제 요청이 들어왔습니다.");
+
+        // 1 : 삭제 대상을 가져온다!
+        Article target = articleRepository.findById(id).orElse(null); // 여기 id값은 매소드 파라미터에 있는 @pathvariavle long id
+        log.info(target.toString());
+
+        // 2 : 대상을 삭제 한다!
+        if (target != null){
+            articleRepository.delete(target); // target = 삭제 대상 !
+            rttr.addFlashAttribute("msg","삭제가 완료 되었습니다.");
+        }
+
+        // 3 : 결과 페이지로 리다이렉트 한다 !
+
+        return "redirect:/articles";
     }
 }
