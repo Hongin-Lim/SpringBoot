@@ -22,4 +22,10 @@ public class Article {
     @Column
     private String content;
 
+    public void patch(Article article) { // 일부 컬럼에 값을 빼고 보냈을 때 null로 나오지 않게
+        if(article.title != null)
+            this.title = article.title;
+        if(article.content != null)
+            this.content = article.content;
+    }
 }
