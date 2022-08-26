@@ -22,18 +22,12 @@ public class Article {
     @Column
     private String content;
 
-<<<<<<< HEAD
+
     public void patch(Article article) { // 일부 칼럼에 값을 빼고 보냈을 때  null로 나오지 않게
         if(article.title != null)
             this.title =  article.title;
         if(article.content != null)
             this.title = article.content;
-=======
-    public void patch(Article article) { // 일부 컬럼에 값을 빼고 보냈을 때 null로 나오지 않게
-        if(article.title != null)
-            this.title = article.title;
-        if(article.content != null)
-            this.content = article.content;
->>>>>>> 2a9e775045eef14b1469c50b5d6fb040d1eed79f
+
     }
 }
